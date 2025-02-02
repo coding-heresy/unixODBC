@@ -27,17 +27,15 @@ autom4te.cache
 /compile
 /config.cache
 /config.guess
-/config.h.in
 /config.log
 /config.status
 /config.sub
-/config.h.in
 /configure
 /configure.scan
 /depcomp
 /install-sh
 /missing
-/stamp-h1
+/stamp-*
 
 # https://www.gnu.org/software/libtool/
 
@@ -59,4 +57,37 @@ m4/lt~obsolete.m4
 # (meta build system like autotools,
 # can automatically generate from config.status script
 # (which is called by configure script))
+
 Makefile
+
+# Generated headers from autotools
+
+config.h
+unixodbc.h
+unixodbc_conf.h
+
+# Generated executables and other artifacts for autotools in-tree build
+
+DriverManager/.libs
+cur/.libs
+exe/.libs
+exe/dltest
+exe/isql
+exe/iusql
+exe/odbc_config
+exe/odbcinst
+exe/slencheck
+extras/.libs
+ini/.libs
+libtool
+log/.libs
+lst/.libs
+odbcinst/.libs
+
+# https://bazel.build/
+
+bazel-*
+
+# https://www.gnu.org/software/emacs/
+
+*~

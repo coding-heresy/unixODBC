@@ -15,55 +15,57 @@
 
 SQLRETURN SQLExecute( SQLHSTMT  hDrvStmt )
 {
-    HDRVSTMT 	hStmt	= (HDRVSTMT)hDrvStmt;
-	int			nColumn;
-	int			nCols;
-	int			nRow;
-	COLUMNHDR	*pColumnHeader;			
+    HDRVSTMT    hStmt	= (HDRVSTMT)hDrvStmt;
+        /* int			nColumn; */
+        /* int			nCols; */
+        /* int			nRow; */
+        /* COLUMNHDR	*pColumnHeader; */
 
-	/* SANITY CHECKS */
+        /* SANITY CHECKS */
     if( NULL == hStmt )
         return SQL_INVALID_HANDLE;
 
-	sprintf((char*) hStmt->szSqlMsg, "hStmt = $%08lX", (long)hStmt );
+    /* sprintf((char*) hStmt->szSqlMsg, "hStmt = $%08lX", (long)hStmt ); */
+#pragma GCC diagnostic push
+    // ignore warning related to attempting to apply 0 padding to
+    // pointer format
+#pragma GCC diagnostic ignored "-Wformat"
+    sprintf((char*) hStmt->szSqlMsg, "hStmt = $%08p", hStmt );
+#pragma GCC diagnostic pop
     logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING,(char*) hStmt->szSqlMsg );
 
     if( hStmt->pszQuery == NULL )
     {
-		logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR No prepared statement" );
+                logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_WARNING, LOG_WARNING, "SQL_ERROR No prepared statement" );
         return SQL_ERROR;
     }
 
     /**************************
-	 * Free any current results
+         * Free any current results
      **************************/
-	if ( hStmt->hStmtExtras->aResults )
-		_FreeResults( hStmt->hStmtExtras );
+        if ( hStmt->hStmtExtras->aResults )
+                _FreeResults( hStmt->hStmtExtras );
 
     /**************************
-	 * send prepared query to server
-     **************************/
-
-    /**************************
-	 * allocate memory for columns headers and result data (row 0 is column header while col 0 is reserved for bookmarks)
+         * send prepared query to server
      **************************/
 
     /**************************
-	 * gather column header information (save col 0 for bookmarks)
+         * allocate memory for columns headers and result data (row 0 is column header while col 0 is reserved for bookmarks)
      **************************/
 
-	/************************
-	 * gather data (save col 0 for bookmarks)
-	 ************************/
+    /**************************
+         * gather column header information (save col 0 for bookmarks)
+     **************************/
+
+        /************************
+         * gather data (save col 0 for bookmarks)
+         ************************/
 
     /**************************
-	 * free the snapshot
+         * free the snapshot
      **************************/
 
     logPushMsg( hStmt->hLog, __FILE__, __FILE__, __LINE__, LOG_INFO, LOG_INFO, "SQL_SUCCESS" );
     return SQL_SUCCESS;
 }
-
-
-
-
